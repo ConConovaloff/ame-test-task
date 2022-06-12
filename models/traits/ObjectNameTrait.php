@@ -21,6 +21,21 @@ trait ObjectNameTrait
     ];
 
     /**
+     * @return string[]
+     */
+    public static function getAllObjectRelation()
+    {
+        return [
+            'customer',
+            'sms',
+            'task',
+            'call',
+            'fax',
+            'user',
+        ];
+    }
+
+    /**
      * @param $name
      * @param bool $throwException
      * @return mixed

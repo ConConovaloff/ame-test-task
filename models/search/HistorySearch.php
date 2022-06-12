@@ -13,12 +13,22 @@ use yii\data\ActiveDataProvider;
  */
 class HistorySearch extends History
 {
+    /** @var string */
+    public $ins_ts_from;
+
+    /** @var string */
+    public $ins_ts_to;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [];
+        return [
+            [['event_id'], 'each', 'rule' => ['integer']],
+            [['user_id'], 'integer'],
+            [['ins_ts_from', 'ins_ts_to'], 'date', 'format' => 'yyyy-mm-dd'],
+        ];
     }
 
     /**
@@ -31,6 +41,7 @@ class HistorySearch extends History
     }
 
     /**
+     * Notice: Если
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -62,15 +73,16 @@ class HistorySearch extends History
             return $dataProvider;
         }
 
-        $query->addSelect('history.*');
-        $query->with([
-            'customer',
-            'user',
-            'sms',
-            'task',
-            'call',
-            'fax',
-        ]);
+        // В будущем будет большое количество данных в истории.
+        // Чтобы менеджеры могли выгружать эти данные, их нужно лимитировать через удобный для них фильтр
+        $query
+            ->andFilterWhere(['user_id' => $this->user_id])
+            ->andFilterWhere(['event_id' => $this->event_id])
+            ->andFilterWhere(['>', 'ins_ts', $this->ins_ts_from])
+            ->andFilterWhere(['<', 'ins_ts', $this->ins_ts_to])
+        ;
+
+        $query->with($this->getAllObjectRelation());
 
         return $dataProvider;
     }
