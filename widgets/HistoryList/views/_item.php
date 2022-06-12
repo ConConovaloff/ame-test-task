@@ -1,7 +1,7 @@
 <?php
 use app\models\Call;
 use app\models\Customer;
-use app\models\History;
+use app\models\HistoryEvent;
 use app\models\search\HistorySearch;
 use app\models\Sms;
 use app\widgets\HistoryList\helpers\HistoryListHelper;
@@ -9,10 +9,10 @@ use yii\helpers\Html;
 
 /** @var $model HistorySearch */
 
-switch ($model->event) {
-    case History::EVENT_CREATED_TASK:
-    case History::EVENT_COMPLETED_TASK:
-    case History::EVENT_UPDATED_TASK:
+switch ($model->event_id) {
+    case HistoryEvent::EVENT_ID_CREATED_TASK:
+    case HistoryEvent::EVENT_ID_COMPLETED_TASK:
+    case HistoryEvent::EVENT_ID_UPDATED_TASK:
         $task = $model->task;
 
         echo $this->render('_item_common', [
@@ -23,8 +23,8 @@ switch ($model->event) {
             'footer' => isset($task->customerCreditor->name) ? "Creditor: " . $task->customerCreditor->name : ''
         ]);
         break;
-    case History::EVENT_INCOMING_SMS:
-    case History::EVENT_OUTGOING_SMS:
+    case HistoryEvent::EVENT_ID_INCOMING_SMS:
+    case HistoryEvent::EVENT_ID_OUTGOING_SMS:
         echo $this->render('_item_common', [
             'user' => $model->user,
             'body' => HistoryListHelper::getBodyByModel($model),
@@ -39,8 +39,8 @@ switch ($model->event) {
             'iconClass' => 'icon-sms bg-dark-blue'
         ]);
         break;
-    case History::EVENT_OUTGOING_FAX:
-    case History::EVENT_INCOMING_FAX:
+    case HistoryEvent::EVENT_ID_OUTGOING_FAX:
+    case HistoryEvent::EVENT_ID_INCOMING_FAX:
         $fax = $model->fax;
 
         echo $this->render('_item_common', [
@@ -63,22 +63,22 @@ switch ($model->event) {
             'iconClass' => 'fa-fax bg-green'
         ]);
         break;
-    case History::EVENT_CUSTOMER_CHANGE_TYPE:
+    case HistoryEvent::EVENT_ID_CUSTOMER_CHANGE_TYPE:
         echo $this->render('_item_statuses_change', [
             'model' => $model,
             'oldValue' => Customer::getTypeTextByType($model->getDetailOldValue('type')),
             'newValue' => Customer::getTypeTextByType($model->getDetailNewValue('type'))
         ]);
         break;
-    case History::EVENT_CUSTOMER_CHANGE_QUALITY:
+    case HistoryEvent::EVENT_ID_CUSTOMER_CHANGE_QUALITY:
         echo $this->render('_item_statuses_change', [
             'model' => $model,
             'oldValue' => Customer::getQualityTextByQuality($model->getDetailOldValue('quality')),
             'newValue' => Customer::getQualityTextByQuality($model->getDetailNewValue('quality')),
         ]);
         break;
-    case History::EVENT_INCOMING_CALL:
-    case History::EVENT_OUTGOING_CALL:
+    case HistoryEvent::EVENT_ID_INCOMING_CALL:
+    case HistoryEvent::EVENT_ID_OUTGOING_CALL:
         /** @var Call $call */
         $call = $model->call;
         $answered = $call && $call->status == Call::STATUS_ANSWERED;
