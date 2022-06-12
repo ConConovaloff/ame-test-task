@@ -15,9 +15,13 @@ use yii\widgets\Pjax;
 
 <?php Pjax::begin(['id' => 'grid-pjax', 'formSelector' => false]); ?>
 
-<div class="panel panel-primary panel-small m-b-0">
-    <div class="panel-body panel-body-selected">
+<?= $this->render('_filter_form', [
+    'model' => $model,
+]) ?>
 
+<div class="panel panel-default panel-small m-b-0">
+    <div class="panel-heading"><?= Yii::t('app', 'Export:') ?></div>
+    <div class="panel-body">
         <div class="pull-sm-right">
             <?php if (!empty($linkExport)) {
                 echo Html::a(Yii::t('app', 'CSV'), $linkExport,
