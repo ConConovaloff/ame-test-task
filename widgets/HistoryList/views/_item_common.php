@@ -23,7 +23,7 @@ use yii\helpers\Html;
     </div>
 
 <?php if (isset($user)): ?>
-    <div class="bg-info"><?= $user->username; ?></div>
+    <div class="bg-info"><?= $user->username; ?> (<?= $user->id; ?>)</div>
 <?php endif; ?>
 
 <?php if (isset($content) && $content): ?>

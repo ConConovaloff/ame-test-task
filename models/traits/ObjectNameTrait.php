@@ -9,6 +9,14 @@ use app\models\Sms;
 use app\models\Task;
 use app\models\User;
 
+/**
+ * @property Customer $customer
+ * @property Sms $sms
+ * @property Task $task
+ * @property Call $call
+ * @property Fax $fax
+ * @property User $user
+ */
 trait ObjectNameTrait
 {
     public static $classes = [
@@ -19,6 +27,21 @@ trait ObjectNameTrait
         Fax::class,
         User::class,
     ];
+
+    /**
+     * @return string[]
+     */
+    public static function getAllObjectRelation()
+    {
+        return [
+            'customer',
+            'sms',
+            'task',
+            'call',
+            'fax',
+            'user',
+        ];
+    }
 
     /**
      * @param $name
