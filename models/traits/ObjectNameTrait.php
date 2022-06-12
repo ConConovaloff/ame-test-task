@@ -9,6 +9,14 @@ use app\models\Sms;
 use app\models\Task;
 use app\models\User;
 
+/**
+ * @property Customer $customer
+ * @property Sms $sms
+ * @property Task $task
+ * @property Call $call
+ * @property Fax $fax
+ * @property User $user
+ */
 trait ObjectNameTrait
 {
     public static $classes = [
