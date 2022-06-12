@@ -34,7 +34,7 @@ class Fax extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'fax';
+        return '{{%fax}}';
     }
 
     /**

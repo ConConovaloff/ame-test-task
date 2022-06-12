@@ -23,12 +23,6 @@ use yii\db\ActiveRecord;
  * @property string $eventText
  *
  * @property HistoryEvent $event
- * @property Customer $customer
- * @property User $user
- *
- * @property Task $task
- * @property Sms $sms
- * @property Call $call
  */
 class History extends ActiveRecord
 {
